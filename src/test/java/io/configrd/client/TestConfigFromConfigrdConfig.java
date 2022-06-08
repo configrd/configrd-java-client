@@ -6,11 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import io.configrd.core.Config;
 
-public class TestConfigFromConfigrdConfig {
-
-  private ConfigClient.ConfigrdConfigClientBuilder client = null;
-
-  private Config config;
+public class TestConfigFromConfigrdConfig extends CommonConfigFromTest {
 
   @Before
   public void setup() {
@@ -18,33 +14,9 @@ public class TestConfigFromConfigrdConfig {
   }
 
   @Test
-  public void testGetPropertyFromDefaultRepo() throws Exception {
-    config = client.path("env/dev/simple").build();
-    Assert.assertNotNull(config.getProperty("property.3.name", String.class));
-  }
-  
-  @Test
   public void testGetPropertyFromDefaultRepoByNamedPath() throws Exception {
     config = client.named("simple").build();
     Assert.assertNotNull(config.getProperty("property.3.name", String.class));
-  }
-
-  @Test
-  public void testGetPropertyFromDefaultRepoByAbsolutePath() throws Exception {
-    config = client.path("/env/dev/simple").build();
-    Assert.assertNotNull(config.getProperty("property.3.name", String.class));
-  }
-
-  @Test
-  public void testGetPropertyFromDefaultRepoByFilename() throws Exception {
-    config = client.path("env/dev/simple/default.properties").build();
-    Assert.assertNotNull(config.getProperty("property.3.name", String.class));
-  }
-
-  @Test
-  public void testGetEmptyProperties() throws Exception {
-    config = client.path("does/not/exist/notexists.file").build();
-    Assert.assertTrue(config.getProperties().isEmpty());
   }
 
   @Test

@@ -3,47 +3,52 @@ package io.configrd.client;
 import io.configrd.core.Config;
 import java.util.Properties;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
-public class TestConfigFromServer {
+public abstract class CommonConfigFromTest {
 
   protected Config config;
 
   protected ConfigClient.BaseClientBuilder client;
 
-  @Before
-  public void setup() {
-    client = ConfigClient.server("http://demo.configrd.io/configrd/v1");
-  }
-
-
   @Test
-  public void testGetPropertyFromClasspathByPath() throws Exception {
+  public void testGetPropertyFromDefaultRepo() throws Exception {
     config = client.path("env/dev/simple").build();
     Assert.assertNotNull(config.getProperty("property.3.name", String.class));
   }
 
   @Test
-  public void testGetPropertyFromClasspathByAbsolutePath() throws Exception {
+  public void testGetPropertyByPath() throws Exception {
+    config = client.path("env/dev/simple").build();
+    Assert.assertNotNull(config.getProperty("property.3.name", String.class));
+  }
+
+  @Test
+  public void testGetPropertyByAbsolutePath() throws Exception {
     config = client.path("/env/dev/simple").build();
     Assert.assertNotNull(config.getProperty("property.3.name", String.class));
   }
 
   @Test
-  public void testGetPropertyFromClasspathByFilename() throws Exception {
+  public void testGetPropertyFromDefaultRepoByFilename() throws Exception {
     config = client.path("env/dev/simple/default.properties").build();
     Assert.assertNotNull(config.getProperty("property.3.name", String.class));
   }
 
   @Test
+  public void testGetPropertyByFilename() throws Exception {
+    config = client.path("env/dev/simple/default.properties").build();
+    Assert.assertNotNull(config.getProperty("property.3.name", String.class));
+  }
+  
+  @Test
   public void testGetEmptyProperties() throws Exception {
     config = client.path("does/not/exist/notexists.file").build();
-    Assert.assertTrue(config.getProperties().isEmpty());
+    Assert.assertEquals(3, config.getProperties().size());
   }
 
   @Test
-  public void testGetPropertyFromClasspathOfJson() throws Exception {
+  public void testGetPropertyOfJson() throws Exception {
 
     config = client.path("/env/dev/json/default.json").build();
 
@@ -60,7 +65,7 @@ public class TestConfigFromServer {
   }
 
   @Test
-  public void testGetPropertyFromClasspathOfYaml() throws Exception {
+  public void testGetPropertyOfYaml() throws Exception {
 
     config = client.path("/env/dev/yaml/default.yaml").build();
 

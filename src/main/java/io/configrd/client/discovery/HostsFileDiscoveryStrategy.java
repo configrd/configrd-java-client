@@ -1,10 +1,10 @@
 package io.configrd.client.discovery;
 
+import io.configrd.core.util.Environment;
 import java.net.URI;
 import java.util.Map;
 import java.util.Optional;
 import org.slf4j.Logger;
-import io.configrd.core.Environment;
 import io.configrd.core.util.StringUtils;
 
 public class HostsFileDiscoveryStrategy implements ConfigDiscoveryStrategy {
@@ -13,8 +13,8 @@ public class HostsFileDiscoveryStrategy implements ConfigDiscoveryStrategy {
       org.slf4j.LoggerFactory.getLogger(HostsFileDiscoveryStrategy.class);
 
   @Override
-  public Optional<URI> lookupConfigPath(Map<String, Object> hostMappings,
-      Map<String, Object> envProps) {
+  public Optional<URI> lookupConfigPath(Map<String, String> hostMappings,
+      Map<String, String> envProps) {
 
     String envName = (String) envProps.get(Environment.ENV_NAME);
     String hostName = (String) envProps.get(Environment.HOST_NAME);
